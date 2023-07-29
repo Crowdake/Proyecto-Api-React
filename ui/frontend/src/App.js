@@ -1,19 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
-import "bootstrap/dist/css/bootstrap.min.css";
 
-import AxiosTest from './components/AxiosTest';
+import {Refaccion} from './Refaccion';
+import {BrowserRouter, Route, Switch, NavLink} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <AxiosTest/>
+    <BrowserRouter>
+    <div className="App container">
+      <h3 className="d-flex justify-content-center m-3">
+        React JS Frontend
+      </h3>
+        
+      <nav className="navbar navbar-expand-sm bg-light navbar-dark">
+        <ul className="navbar-nav">
+          <li className="nav-item- m-1">
+            <NavLink className="btn btn-light btn-outline-primary" to="/refaccion">
+              Refaccion
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
 
-      </header>
-
+      <Switch>
+        <Route path='/refaccion' component={Refaccion}/>
+      </Switch>
     </div>
+    </BrowserRouter>
   );
 }
 
