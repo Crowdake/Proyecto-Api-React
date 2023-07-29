@@ -39,7 +39,6 @@ namespace test_api2.Controllers
         {
             var refaccionService = new RefaccionService();
             var res = refaccionService.EliminarRefaccion(id);
-
             if (res)
                 return Ok("Eliminado con éxito");
             else

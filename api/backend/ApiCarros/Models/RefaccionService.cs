@@ -65,7 +65,16 @@ namespace test_api2.Models
 
                         int rowsAffected = com.ExecuteNonQuery();
 
-                        return rowsAffected > 0;
+                        if (rowsAffected > 0)
+                        {
+                            // Return a JSON response indicating success
+                            return true;
+                        }
+                        else
+                        {
+                            // Return a JSON response indicating failure
+                            return false;
+                        }
                     }
                 }
             }

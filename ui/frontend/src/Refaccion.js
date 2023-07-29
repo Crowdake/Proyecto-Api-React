@@ -19,18 +19,52 @@ export class Refaccion extends Component {
             descripcion_Refaccion: "",
             stock: 0,
             precio: 0,
+            searchQuery: "",
         }
     }
 
 
-    async refreshList () {
-        
+    searchRefaccion = async () => {
+        const { searchQuery } = this.state;
+    
+        if (searchQuery.trim() === "") {
+            this.refreshList();
+        } else {
+            // Hacer la solicitud GET a la API para buscar la refacción por ID
+            axios
+                .get(`http://localhost:5249/api/Refaccion/${searchQuery}`)
+                .then((response) => {
+                    const refaccion = response.data;
+    
+                    if (refaccion) {
+                        this.setState({
+                            refacciones: [refaccion], // Mostrar solo la refacción encontrada en la lista
+                        });
+                    } else {
+                        alert("Refacción no encontrada");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    alert("Algo falló en la búsqueda");
+                });
+        }
+    };
 
-        await fetch(variables.API_URL+'Refaccion')
-        .then(response=>response.json())
-        .then(data=>{
-            this.setState({refacciones:data});
-        });
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.searchQuery !== this.state.searchQuery && this.state.searchQuery.trim() === "") {
+            this.refreshList();
+        }
+    }
+
+    async refreshList() {
+
+
+        await fetch(variables.API_URL + 'Refaccion')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ refacciones: data });
+            });
         // fetch(variables.API_URL+'Marca')
         // .then(response=>response.json())
         // .then(data=>{
@@ -44,9 +78,14 @@ export class Refaccion extends Component {
         // });
     }
 
+
     componentDidMount() {
         this.refreshList();
     }
+
+    changeSearchQuery = (e) => {
+        this.setState({ searchQuery: e.target.value });
+    };
 
     changeCarro = (e) => {
         this.setState({ iD_Carro: e.target.value });
@@ -96,7 +135,7 @@ export class Refaccion extends Component {
         fetch(variables.API_URL + 'Refaccion', {
             method: 'POST',
             headers: {
-                'Accept': '*/*',
+                'Accept': 'application/json', // Update the Accept header to accept JSON response
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -109,21 +148,37 @@ export class Refaccion extends Component {
                 precio: this.state.precio,
             })
         })
-            .then(res => res.json())
-            .then((result) => {
-                alert(result);
-                this.refreshList();
-            }, (error) => {
-                alert('Failed');
+            .then(response => response.json()) // Parse the response as JSON
+            .then(result => {
+                if (result) {
+                    alert("Refaccion agregada con éxito");
+                    // Clear input fields after successful addition
+                    this.setState({
+                        iD_Carro: 0,
+                        iD_Categoria: 0,
+                        nombre_Refaccion: "",
+                        descripcion_Refaccion: "",
+                        stock: 0,
+                        precio: 0
+                    });
+                    // Update the list by fetching the updated data from the backend
+                    this.refreshList();
+                } else {
+                    alert("Error al agregar refaccion");
+                }
             })
+            .catch(error => {
+                console.log(error);
+                alert('Algo falló');
+            });
     }
 
 
     updateClick() {
-        fetch(variables.API_URL + 'Refaccion/'+this.state.iD_Refaccion, {
+        fetch(variables.API_URL + 'Refaccion/' + this.state.iD_Refaccion, {
             method: 'PUT',
             headers: {
-                'Accept': '*/*',
+                'Accept': 'application/json', // Update the Accept header to accept JSON response
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -136,29 +191,42 @@ export class Refaccion extends Component {
                 precio: this.state.precio,
             })
         })
-            .then(res => res.json())
-            .then((result) => {
-                alert(result);
-                this.refreshList();
-            }, (error) => {
-                console.log(error);
+            .then(response => response.json()) // Parse the response as JSON
+            .then(result => {
+                if (result) {
+                    alert("Refaccion actualizada con éxito");
+                    // Update the list by fetching the updated data from the backend
+                    this.refreshList();
+                } else {
+                    alert("Error al actualizar refaccion");
+                }
             })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     deleteClick(id) {
-        if (window.confirm('Are you sure?')) {
+        if (window.confirm('¿Seguro de eliminar?')) {
             fetch(variables.API_URL + 'Refaccion/' + id, {
                 method: 'DELETE',
                 headers: {
-                    'Accept': '*/*',
+                    'Accept': 'application/json', // Update the Accept header to accept JSON response
                     'Content-Type': 'application/json'
                 }
             })
-                .then(res => res.json())
-                .then((result) => {
-                    alert(result);
+                .then(response => response.json()) // Parse the response as JSON
+                .then(result => {
+                    if (result) {
+                        alert("Eliminado con éxito"); // Show success message
+                    } else {
+                        alert("Error al eliminar"); // Show failure message
+                    }
                     this.refreshList();
                 })
+                .catch(error => {
+                    console.log(error);
+                });
         }
     }
 
@@ -173,11 +241,26 @@ export class Refaccion extends Component {
             descripcion_Refaccion,
             precio,
             stock,
+            searchQuery,
         } = this.state;
 
         return (
             <div>
-
+                <div className="input-group mb-3">
+                    <span className="input-group-text">Buscar Refacción</span>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={searchQuery}
+                        onChange={this.changeSearchQuery}
+                    />
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => this.searchRefaccion()}
+                    >
+                        Buscar
+                    </button>
+                </div>
                 <button type="button"
                     className="btn btn-primary m-2 float-end"
                     data-bs-toggle="modal"
@@ -189,19 +272,25 @@ export class Refaccion extends Component {
                     <thead>
                         <tr>
                             <th>
-                                iD_Refaccion
+                                Id
                             </th>
                             <th>
-                                iD_Carro
+                                Nombre
                             </th>
                             <th>
-                                iD_Categoria
+                                Descripción
                             </th>
                             <th>
-                                DOJ
+                                Modelo
                             </th>
                             <th>
-                                Options
+                                Categoría
+                            </th>
+                            <th>
+                                Stock
+                            </th>
+                            <th>
+                                Precio unitario
                             </th>
                         </tr>
                     </thead>
@@ -209,9 +298,12 @@ export class Refaccion extends Component {
                         {refacciones.map(refaccion =>
                             <tr key={refaccion.iD_Refaccion}>
                                 <td>{refaccion.iD_Refaccion}</td>
+                                <td>{refaccion.nombre_Refaccion}</td>
+                                <td>{refaccion.descripcion_Refaccion}</td>
                                 <td>{refaccion.iD_Carro}</td>
                                 <td>{refaccion.iD_Categoria}</td>
-                                <td>{refaccion.nombre_Refaccion}</td>
+                                <td>{refaccion.stock}</td>
+                                <td>{refaccion.precio}</td>
                                 <td>
                                     <button type="button"
                                         className="btn btn-light mr-1"
@@ -300,7 +392,7 @@ export class Refaccion extends Component {
             </select>
         </div> */}
 
-                                        
+
 
 
                                     </div>
