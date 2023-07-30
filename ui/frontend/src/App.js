@@ -3,6 +3,7 @@ import './App.css';
 
 import {Refaccion} from './Refaccion';
 import {BrowserRouter, Route, Switch, NavLink} from 'react-router-dom';
+import { Carros } from './Carros';
 
 function App() {
   return (
@@ -18,12 +19,16 @@ function App() {
             <NavLink className="btn btn-light btn-outline-primary" to="/refaccion">
               Refaccion
             </NavLink>
+            <NavLink className="btn btn-light btn-outline-primary" to="/carro">
+              Carro
+            </NavLink>
           </li>
         </ul>
       </nav>
 
       <Switch>
         <Route path='/refaccion' component={Refaccion}/>
+        <Route path='/carro' component={Carros}/>
       </Switch>
     </div>
     </BrowserRouter>
