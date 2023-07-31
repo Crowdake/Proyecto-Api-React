@@ -76,7 +76,7 @@ export class Department extends Component{
 
     addClick(){
         this.setState({
-            modalTitle:"Add Department",
+            modalTitle:"Agregar Department",
             DepartmentId:0,
             DepartmentName:""
         });
@@ -166,7 +166,7 @@ export class Department extends Component{
     data-bs-toggle="modal"
     data-bs-target="#exampleModal"
     onClick={()=>this.addClick()}>
-        Add Department
+        Agregar Department
     </button>
     <table className="table table-striped">
     <thead>
@@ -276,14 +276,14 @@ export class Department extends Component{
         <button type="button"
         className="btn btn-primary float-start"
         onClick={()=>this.createClick()}
-        >Create</button>
+        >Crear</button>
         :null}
 
         {DepartmentId!=0?
         <button type="button"
         className="btn btn-primary float-start"
         onClick={()=>this.updateClick()}
-        >Update</button>
+        >Actualizar</button>
         :null}
 
    </div>

@@ -85,7 +85,7 @@ export class Carros extends Component {
 
     addClick() {
         this.setState({
-            modalTitle: "Add Carros",
+            modalTitle: "Agregar Carros",
             iD_Carro: 0,
             iD_Marca: 0,
             modelo: "",
@@ -232,7 +232,7 @@ export class Carros extends Component {
                     data-bs-target="#exampleModal"
                     onClick={() => this.addClick()}
                 >
-                    Add Carros
+                    Agregar Carros
                 </button>
                 <table className="table table-striped">
                     <thead>
@@ -371,7 +371,7 @@ export class Carros extends Component {
                                 className="btn btn-primary float-start"
                                 onClick={() => this.createClick()}
                                 >
-                                    Create
+                                    Crear
                                 </button>
                                 : null}
 

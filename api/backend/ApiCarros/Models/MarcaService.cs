@@ -1,9 +1,11 @@
 ﻿using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 using System.Data;
 
-namespace test_api2.Models
+namespace ApiCarros.Models
 {
-    public class PeliculaService
+    public class MarcaService
     {
         private string BuildConnection()
         {
@@ -16,7 +18,7 @@ namespace test_api2.Models
             return builder.ConnectionString;
         }
 
-        public bool GuardaPelicula(Pelicula pelicula)
+        public bool GuardarMarca(Marca marca)
         {
             try
             {
@@ -24,10 +26,10 @@ namespace test_api2.Models
                 {
                     conexion.Open();
 
-                    using (MySqlCommand com = new MySqlCommand("INSERT INTO pelicula (nombre, genero) VALUES (@nombre, @genero)", conexion))
+                    using (MySqlCommand com = new MySqlCommand("INSERT INTO marcas (Nombre_Marca, Pais_Origen) VALUES (@nombreMarca, @paisOrigen)", conexion))
                     {
-                        com.Parameters.Add(new MySqlParameter("@nombre", pelicula.Nombre));
-                        com.Parameters.Add(new MySqlParameter("@genero", pelicula.Genero));
+                        com.Parameters.Add(new MySqlParameter("@nombreMarca", marca.Nombre_Marca));
+                        com.Parameters.Add(new MySqlParameter("@paisOrigen", marca.Pais_Origen));
 
                         int rowsAffected = com.ExecuteNonQuery();
 
@@ -42,16 +44,15 @@ namespace test_api2.Models
             }
         }
 
-
-        public bool EliminaPelicula(int idPelicula)
+        public bool EliminarMarca(int idMarca)
         {
             try
             {
-                using (MySqlCommand com = new MySqlCommand("DELETE FROM pelicula WHERE IdPelicula = @idPelicula", new MySqlConnection(BuildConnection())))
+                using (MySqlCommand com = new MySqlCommand("DELETE FROM marcas WHERE ID_Marca = @idMarca", new MySqlConnection(BuildConnection())))
                 {
                     com.Connection.Open();
 
-                    com.Parameters.Add(new MySqlParameter("@idPelicula", idPelicula));
+                    com.Parameters.Add(new MySqlParameter("@idMarca", idMarca));
 
                     int rowsAffected = com.ExecuteNonQuery();
 
@@ -60,66 +61,62 @@ namespace test_api2.Models
             }
             catch (MySqlException e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }
 
-
-        public List<Pelicula> LeePeliculas()
+        public List<Marca> LeerMarcas()
         {
-
-            List<Pelicula> peliculas = new List<Pelicula>();
+            List<Marca> marcas = new List<Marca>();
 
             MySqlConnection conexion = new MySqlConnection();
             conexion.ConnectionString = BuildConnection();
 
-            using (MySqlCommand com = new MySqlCommand("SELECT * FROM pelicula", conexion))
+            using (MySqlCommand com = new MySqlCommand("SELECT * FROM marcas", conexion))
             {
                 com.Connection.Open();
                 MySqlDataReader reader = com.ExecuteReader();
                 while (reader.Read())
                 {
-                    var pelicula = new Pelicula();
-                    pelicula.IdPelicula = Convert.ToInt32(reader["IdPelicula"]);
-                    pelicula.Nombre = reader["nombre"].ToString();
-                    pelicula.Genero = reader["genero"].ToString();
+                    var marca = new Marca();
+                    marca.ID_Marca = Convert.ToInt32(reader["ID_Marca"]);
+                    marca.Nombre_Marca = reader["Nombre_Marca"].ToString();
+                    marca.Pais_Origen = reader["Pais_Origen"].ToString();
 
-                    peliculas.Add(pelicula);
-
+                    marcas.Add(marca);
                 }
-
-                return peliculas;
-
-
             }
+
+            return marcas;
         }
 
-        public Pelicula BuscarPelicula(int idPelicula)
+        public Marca BuscarMarca(int idMarca)
         {
-            Pelicula pelicula = null;
+            Marca marca = null;
 
             MySqlConnection conexion = new MySqlConnection();
             conexion.ConnectionString = BuildConnection();
 
-            using (MySqlCommand com = new MySqlCommand("SELECT * FROM pelicula WHERE IdPelicula = @idPelicula", conexion))
+            using (MySqlCommand com = new MySqlCommand("SELECT * FROM marcas WHERE ID_Marca = @idMarca", conexion))
             {
                 com.Connection.Open();
-                com.Parameters.Add(new MySqlParameter("@idPelicula", idPelicula));
+                com.Parameters.Add(new MySqlParameter("@idMarca", idMarca));
                 MySqlDataReader reader = com.ExecuteReader();
 
                 if (reader.Read())
                 {
-                    pelicula = new Pelicula();
-                    pelicula.IdPelicula = Convert.ToInt32(reader["IdPelicula"]);
-                    pelicula.Nombre = reader["nombre"].ToString();
-                    pelicula.Genero = reader["genero"].ToString();
+                    marca = new Marca();
+                    marca.ID_Marca = Convert.ToInt32(reader["ID_Marca"]);
+                    marca.Nombre_Marca = reader["Nombre_Marca"].ToString();
+                    marca.Pais_Origen = reader["Pais_Origen"].ToString();
                 }
             }
 
-            return pelicula;
+            return marca;
         }
 
-        public bool EditarPelicula(int idPelicula, Pelicula pelicula)
+        public bool EditarMarca(int idMarca, Marca marca)
         {
             try
             {
@@ -127,11 +124,11 @@ namespace test_api2.Models
                 {
                     conexion.Open();
 
-                    using (MySqlCommand com = new MySqlCommand("UPDATE pelicula SET nombre = @nombre, genero = @genero WHERE IdPelicula = @idPelicula", conexion))
+                    using (MySqlCommand com = new MySqlCommand("UPDATE marcas SET Nombre_Marca = @nombreMarca, Pais_Origen = @paisOrigen WHERE ID_Marca = @idMarca", conexion))
                     {
-                        com.Parameters.Add(new MySqlParameter("@idPelicula", idPelicula));
-                        com.Parameters.Add(new MySqlParameter("@nombre", pelicula.Nombre));
-                        com.Parameters.Add(new MySqlParameter("@genero", pelicula.Genero));
+                        com.Parameters.Add(new MySqlParameter("@idMarca", idMarca));
+                        com.Parameters.Add(new MySqlParameter("@nombreMarca", marca.Nombre_Marca));
+                        com.Parameters.Add(new MySqlParameter("@paisOrigen", marca.Pais_Origen));
 
                         int rowsAffected = com.ExecuteNonQuery();
 
