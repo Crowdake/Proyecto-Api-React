@@ -26,12 +26,14 @@ namespace test_api2.Models
                 {
                     conexion.Open();
 
-                    using (MySqlCommand com = new MySqlCommand("INSERT INTO carros (ID_Marca, Modelo, Anio, Precio_Base) VALUES (@idMarca, @modelo, @anio, @precioBase)", conexion))
+                    using (MySqlCommand com = new MySqlCommand("INSERT INTO carros (ID_Marca, ID_Categoria, Modelo, Anio, Precio_Base) VALUES (@idMarca, @idCategoria, @modelo, @anio, @precioBase)", conexion))
                     {
                         com.Parameters.Add(new MySqlParameter("@idMarca", carro.ID_Marca));
+                        com.Parameters.Add(new MySqlParameter("@idCategoria", carro.ID_Categoria));
                         com.Parameters.Add(new MySqlParameter("@modelo", carro.Modelo));
                         com.Parameters.Add(new MySqlParameter("@anio", carro.Anio));
                         com.Parameters.Add(new MySqlParameter("@precioBase", carro.Precio_Base));
+                        
 
                         int rowsAffected = com.ExecuteNonQuery();
 
@@ -58,7 +60,7 @@ namespace test_api2.Models
 
                     int rowsAffected = com.ExecuteNonQuery();
 
-                    return rowsAffected > 0;
+                    return true;
                 }
             }
             catch (MySqlException e)
@@ -87,6 +89,7 @@ namespace test_api2.Models
                     carro.Modelo = reader["Modelo"].ToString();
                     carro.Anio = Convert.ToInt32(reader["Anio"]);
                     carro.Precio_Base = Convert.ToDecimal(reader["Precio_Base"]);
+                    carro.ID_Categoria = Convert.ToInt32(reader["ID_Categoria"]);
 
                     carros.Add(carro);
                 }
@@ -116,6 +119,7 @@ namespace test_api2.Models
                     carro.Modelo = reader["Modelo"].ToString();
                     carro.Anio = Convert.ToInt32(reader["Anio"]);
                     carro.Precio_Base = Convert.ToDecimal(reader["Precio_Base"]);
+                    carro.ID_Categoria = Convert.ToInt32(reader["ID_Categoria"]);
                 }
             }
 
@@ -130,13 +134,15 @@ namespace test_api2.Models
                 {
                     conexion.Open();
 
-                    using (MySqlCommand com = new MySqlCommand("UPDATE carros SET ID_Marca = @idMarca, Modelo = @modelo, Anio = @anio, Precio_Base = @precioBase WHERE ID_Carro = @idCarro", conexion))
+                    using (MySqlCommand com = new MySqlCommand("UPDATE carros SET ID_Marca = @idMarca, ID_Categoria = @idCategoria, Modelo = @modelo, Anio = @anio, Precio_Base = @precioBase WHERE ID_Carro = @idCarro", conexion))
                     {
                         com.Parameters.Add(new MySqlParameter("@idCarro", idCarro));
                         com.Parameters.Add(new MySqlParameter("@idMarca", carro.ID_Marca));
+                        com.Parameters.Add(new MySqlParameter("@idCategoria", carro.ID_Categoria));
                         com.Parameters.Add(new MySqlParameter("@modelo", carro.Modelo));
                         com.Parameters.Add(new MySqlParameter("@anio", carro.Anio));
                         com.Parameters.Add(new MySqlParameter("@precioBase", carro.Precio_Base));
+                        
 
                         int rowsAffected = com.ExecuteNonQuery();
 

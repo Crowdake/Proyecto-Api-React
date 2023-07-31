@@ -2,20 +2,17 @@ import React, { Component } from 'react';
 import { variables } from './Variables.js';
 import axios from 'axios';
 
-export class Refaccion extends Component {
+export class Servicio extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            refacciones: [],
-            carros: [],
+            servicios: [],
             modalTitle: "",
-            iD_Refaccion: 0,
-            iD_Carro: 0,
-            nombre_Refaccion: "",
-            descripcion_Refaccion: "",
-            stock: 0,
+            iD_Servicio: 0,
+            nombre_Servicio: "",
+            descripcion_Servicio: "",
             precio: 0,
             searchQuery: "",
         }
@@ -30,16 +27,16 @@ export class Refaccion extends Component {
         } else {
             // Hacer la solicitud GET a la API para buscar la refacción por ID
             axios
-                .get(`http://localhost:5249/api/Refaccion/${searchQuery}`)
+                .get(`http://localhost:5249/api/Servicio/${searchQuery}`)
                 .then((response) => {
-                    const refaccion = response.data;
+                    const servicio = response.data;
     
-                    if (refaccion) {
+                    if (servicio) {
                         this.setState({
-                            refacciones: [refaccion], // Mostrar solo la refacción encontrada en la lista
+                            servicios: [servicio], // Mostrar solo la refacción encontrada en la lista
                         });
                     } else {
-                        alert("Refacción no encontrada");
+                        alert("Servicio no encontrada");
                     }
                 })
                 .catch((error) => {
@@ -58,17 +55,22 @@ export class Refaccion extends Component {
     async refreshList() {
 
 
-        await fetch(variables.API_URL + 'Refaccion')
+        await fetch(variables.API_URL + 'Servicio')
             .then(response => response.json())
             .then(data => {
-                this.setState({ refacciones: data });
+                this.setState({ servicios: data });
             });
+        // fetch(variables.API_URL+'Marca')
+        // .then(response=>response.json())
+        // .then(data=>{
+        //     this.setState({marcas:data});
+        // });
 
-        await fetch(variables.API_URL+'Carros')
-        .then(response=>response.json())
-        .then(data=>{
-            this.setState({carros:data});
-        });
+        // fetch(variables.API_URL+'Carro')
+        // .then(response=>response.json())
+        // .then(data=>{
+        //     this.setState({carros:data});
+        // });
     }
 
 
@@ -79,19 +81,11 @@ export class Refaccion extends Component {
     changeSearchQuery = (e) => {
         this.setState({ searchQuery: e.target.value });
     };
-
-    changeCarro = (e) => {
-        this.setState({ iD_Carro: e.target.value });
-    }
-    
     changeNombre = (e) => {
-        this.setState({ nombre_Refaccion: e.target.value });
+        this.setState({ nombre_Servicio: e.target.value });
     }
     changeDescripcion = (e) => {
-        this.setState({ descripcion_Refaccion: e.target.value });
-    }
-    changeStock = (e) => {
-        this.setState({ stock: e.target.value });
+        this.setState({ descripcion_Servicio: e.target.value });
     }
     changePrecio = (e) => {
         this.setState({ precio: e.target.value });
@@ -99,61 +93,51 @@ export class Refaccion extends Component {
 
     addClick() {
         this.setState({
-            modalTitle: "Agregar Refaccion",
-            iD_Refaccion: 0,
-            iD_Carro: 0,
-
-            nombre_Refaccion: "",
-            descripcion_Refaccion: "",
-            stock: 0,
+            modalTitle: "Agregar Servicio",
+            iD_Servicio: 0,
+            nombre_Servicio: "",
+            descripcion_Servicio: "",
             precio: 0,
         });
     }
-    editClick(refaccion) {
+    editClick(servicio) {
         this.setState({
-            modalTitle: "Editar Refacción",
-            iD_Refaccion: refaccion.iD_Refaccion,
-            iD_Carro: refaccion.iD_Carro,
-            
-            nombre_Refaccion: refaccion.nombre_Refaccion,
-            descripcion_Refaccion: refaccion.descripcion_Refaccion,
-            stock: refaccion.stock,
-            precio: refaccion.precio
+            modalTitle: "Editar Servicio",
+            iD_Servicio: servicio.iD_Servicio,
+            nombre_Servicio: servicio.nombre_Servicio,
+            descripcion_Servicio: servicio.descripcion_Servicio,
+            precio: servicio.precio
         });
     }
 
     createClick() {
-        fetch(variables.API_URL + 'Refaccion', {
+        fetch(variables.API_URL + 'Servicio', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json', // Update the Accept header to accept JSON response
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                iD_Refaccion: this.state.iD_Refaccion,
-                iD_Carro: this.state.iD_Carro,
-                nombre_Refaccion: this.state.nombre_Refaccion,
-                descripcion_Refaccion: this.state.descripcion_Refaccion,
-                stock: this.state.stock,
+                iD_Servicio: this.state.iD_Servicio,
+                nombre_Servicio: this.state.nombre_Servicio,
+                descripcion_Servicio: this.state.descripcion_Servicio,
                 precio: this.state.precio,
             })
         })
             .then(response => response.json()) // Parse the response as JSON
             .then(result => {
                 if (result) {
-                    alert("Refaccion agregada con éxito");
+                    alert("Servicio agregada con éxito");
                     // Clear input fields after successful addition
                     this.setState({
-                        iD_Carro: 0,
-                        nombre_Refaccion: "",
-                        descripcion_Refaccion: "",
-                        stock: 0,
+                        nombre_Servicio: "",
+                        descripcion_Servicio: "",
                         precio: 0
                     });
                     // Update the list by fetching the updated data from the backend
                     this.refreshList();
                 } else {
-                    alert("Error al agregar refaccion");
+                    alert("Error al agregar servicio");
                 }
             })
             .catch(error => {
@@ -164,29 +148,27 @@ export class Refaccion extends Component {
 
 
     updateClick() {
-        fetch(variables.API_URL + 'Refaccion/' + this.state.iD_Refaccion, {
+        fetch(variables.API_URL + 'Servicio/' + this.state.iD_Servicio, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json', // Update the Accept header to accept JSON response
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                iD_Refaccion: this.state.iD_Refaccion,
-                iD_Carro: this.state.iD_Carro,
-                nombre_Refaccion: this.state.nombre_Refaccion,
-                descripcion_Refaccion: this.state.descripcion_Refaccion,
-                stock: this.state.stock,
+                iD_Servicio: this.state.iD_Servicio,
+                nombre_Servicio: this.state.nombre_Servicio,
+                descripcion_Servicio: this.state.descripcion_Servicio,
                 precio: this.state.precio,
             })
         })
             .then(response => response.json()) // Parse the response as JSON
             .then(result => {
                 if (result) {
-                    alert("Refaccion actualizada con éxito");
+                    alert("Servicio actualizada con éxito");
                     // Update the list by fetching the updated data from the backend
                     this.refreshList();
                 } else {
-                    alert("Error al actualizar refaccion");
+                    alert("Error al actualizar servicio");
                 }
             })
             .catch(error => {
@@ -196,7 +178,7 @@ export class Refaccion extends Component {
 
     deleteClick(id) {
         if (window.confirm('¿Seguro de eliminar?')) {
-            fetch(variables.API_URL + 'Refaccion/' + id, {
+            fetch(variables.API_URL + 'Servicio/' + id, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json', // Update the Accept header to accept JSON response
@@ -220,22 +202,19 @@ export class Refaccion extends Component {
 
     render() {
         const {
-            refacciones,
-            carros,
+            servicios,
             modalTitle,
-            iD_Refaccion,
-            iD_Carro,
-            nombre_Refaccion,
-            descripcion_Refaccion,
+            iD_Servicio,
+            nombre_Servicio,
+            descripcion_Servicio,
             precio,
-            stock,
             searchQuery,
         } = this.state;
 
         return (
             <div>
                 <div className="input-group mb-3">
-                    <span className="input-group-text">Buscar Refacción</span>
+                    <span className="input-group-text">Buscar Servicio</span>
                     <input
                         type="text"
                         className="form-control"
@@ -254,7 +233,7 @@ export class Refaccion extends Component {
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                     onClick={() => this.addClick()}>
-                    Agregar Refaccion
+                    Agregar Servicio
                 </button>
                 <table className="table table-striped">
                     <thead>
@@ -269,32 +248,23 @@ export class Refaccion extends Component {
                                 Descripción
                             </th>
                             <th>
-                                Modelo
-                            </th>
-                            
-                            <th>
-                                Stock
-                            </th>
-                            <th>
                                 Precio unitario
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {refacciones.map(refaccion =>
-                            <tr key={refaccion.iD_Refaccion}>
-                                <td>{refaccion.iD_Refaccion}</td>
-                                <td>{refaccion.nombre_Refaccion}</td>
-                                <td>{refaccion.descripcion_Refaccion}</td>
-                                <td>{refaccion.iD_Carro}</td>
-                                <td>{refaccion.stock}</td>
-                                <td>{refaccion.precio}</td>
+                        {servicios.map(servicio =>
+                            <tr key={servicio.iD_Servicio}>
+                                <td>{servicio.iD_Servicio}</td>
+                                <td>{servicio.nombre_Servicio}</td>
+                                <td>{servicio.descripcion_Servicio}</td>
+                                <td>{servicio.precio}</td>
                                 <td>
                                     <button type="button"
                                         className="btn btn-light mr-1"
                                         data-bs-toggle="modal"
                                         data-bs-target="#exampleModal"
-                                        onClick={() => this.editClick(refaccion)}>
+                                        onClick={() => this.editClick(servicio)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                             <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
@@ -303,7 +273,7 @@ export class Refaccion extends Component {
 
                                     <button type="button"
                                         className="btn btn-light mr-1"
-                                        onClick={() => this.deleteClick(refaccion.iD_Refaccion)}>
+                                        onClick={() => this.deleteClick(servicio.iD_Servicio)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                         </svg>
@@ -332,31 +302,14 @@ export class Refaccion extends Component {
                                         <div className="input-group mb-3">
                                             <span className="input-group-text">Nombre</span>
                                             <input type="text" className="form-control"
-                                                value={nombre_Refaccion}
+                                                value={nombre_Servicio}
                                                 onChange={this.changeNombre} />
                                         </div>
                                         <div className="input-group mb-3">
                                             <span className="input-group-text">Descripcion</span>
                                             <input type="text" className="form-control"
-                                                value={descripcion_Refaccion}
+                                                value={descripcion_Servicio}
                                                 onChange={this.changeDescripcion} />
-                                        </div>
-                                        <div className="input-group mb-3">
-                                            <span className="input-group-text">Id Carro</span>
-                                            <select className="form-select"
-                                                onChange={this.changeCarro}
-                                                value={iD_Carro}>
-                                                {carros.map(carro => <option value={carro.iD_Carro} key={carro.iD_Marca}>
-                                                    {carro.modelo}
-                                                </option>)}
-                                            </select>
-                                        </div>
-                                        
-                                        <div className="input-group mb-3">
-                                            <span className="input-group-text">Stock</span>
-                                            <input type="text" className="form-control"
-                                                value={stock}
-                                                onChange={this.changeStock} />
                                         </div>
                                         <div className="input-group mb-3">
                                             <span className="input-group-text">Precio</span>
@@ -383,14 +336,14 @@ export class Refaccion extends Component {
 
                                 </div>
 
-                                {iD_Refaccion === 0 ?
+                                {iD_Servicio === 0 ?
                                     <button type="button"
                                         className="btn btn-primary float-start"
                                         onClick={() => this.createClick()}
                                     >Crear</button>
                                     : null}
 
-                                {iD_Refaccion !== 0 ?
+                                {iD_Servicio !== 0 ?
                                     <button type="button"
                                         className="btn btn-primary float-start"
                                         onClick={() => this.updateClick()}

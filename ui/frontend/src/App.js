@@ -6,6 +6,7 @@ import {BrowserRouter, Route, Switch, NavLink} from 'react-router-dom';
 import { Carros } from './Carros';
 import { Categoria } from './Categoria';
 import { Marca } from './Marca';
+import { Servicio } from './Servicio';
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
             <NavLink className="btn btn-light btn-outline-primary" to="/marca">
               Marcas
             </NavLink>
+            <NavLink className="btn btn-light btn-outline-primary" to="/servicio">
+              Servicios
+            </NavLink>
           </li>
         </ul>
       </nav>
@@ -39,6 +43,7 @@ function App() {
         <Route path='/carro' component={Carros}/>
         <Route path='/categoria' component={Categoria}/>
         <Route path='/marca' component={Marca}/>
+        <Route path='/servicio' component={Servicio}/>
       </Switch>
     </div>
     </BrowserRouter>

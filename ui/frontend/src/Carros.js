@@ -9,12 +9,15 @@ export class Carros extends Component {
         this.state = {
             carros: [],
             marcas: [],
+            categorias: [],
             modalTitle: "",
             iD_Carro: 0,
             iD_Marca: 0,
+            iD_Categoria: 0,
             modelo: "",
             anio: 0,
             precio_Base: 0,
+            searchQuery: ""
         };
     }
     searchCarro = async () => {
@@ -57,6 +60,20 @@ export class Carros extends Component {
             .then((data) => {
                 this.setState({ carros: data });
             });
+
+        await fetch(variables.API_URL+'Marca')
+        .then(response=>response.json())
+        .then(data=>{
+            this.setState({marcas:data});
+        });
+
+        await fetch(variables.API_URL+'Categoria')
+        .then(response=>response.json())
+        .then(data=>{
+            this.setState({categorias:data});
+        });
+
+        
     }
 
     componentDidMount() {
@@ -82,12 +99,17 @@ export class Carros extends Component {
     changePrecio_Base = (e) => {
         this.setState({ precio_Base: e.target.value });
     };
+    changeCategoria = (e) => {
+        console.log(e.target.value);
+        this.setState({ iD_Categoria: e.target.value });
+    }
 
     addClick() {
         this.setState({
             modalTitle: "Agregar Carros",
             iD_Carro: 0,
             iD_Marca: 0,
+            iD_Categoria: 0,
             modelo: "",
             anio: 0,
             precio_Base: 0,
@@ -98,6 +120,7 @@ export class Carros extends Component {
             modalTitle: "Editar Carros",
             iD_Carro: carro.iD_Carro,
             iD_Marca: carro.iD_Marca,
+            iD_Categoria: carro.iD_Categoria,
             modelo: carro.modelo,
             anio: carro.anio,
             precio_Base: carro.precio_Base,
@@ -114,6 +137,7 @@ export class Carros extends Component {
             body: JSON.stringify({
                 iD_Carro: this.state.iD_Carro,
                 iD_Marca: this.state.iD_Marca,
+                iD_Categoria: this.state.iD_Categoria,
                 modelo: this.state.modelo,
                 anio: this.state.anio,
                 precio_Base: this.state.precio_Base,
@@ -127,6 +151,7 @@ export class Carros extends Component {
                     this.setState({
                         iD_Carro: 0,
                         iD_Marca: 0,
+                        iD_Categoria: 0,
                         modelo: "",
                         anio: 0,
                         precio_Base: 0,
@@ -153,6 +178,7 @@ export class Carros extends Component {
             body: JSON.stringify({
                 iD_Carro: this.state.iD_Carro,
                 iD_Marca: this.state.iD_Marca,
+                iD_Categoria: this.state.iD_Categoria,
                 modelo: this.state.modelo,
                 anio: this.state.anio,
                 precio_Base: this.state.precio_Base,
@@ -198,9 +224,12 @@ export class Carros extends Component {
     render() {
         const {
             carros,
+            marcas,
+            categorias,
             modalTitle,
             iD_Carro,
             iD_Marca,
+            iD_Categoria,
             modelo,
             anio,
             precio_Base,
@@ -239,6 +268,9 @@ export class Carros extends Component {
                         <tr>
                             <th>Id</th>
                             <th>Modelo</th>
+                            <th>
+                                Categoría
+                            </th>
                             <th>Año</th>
                             <th>Marca</th>
                             <th>Precio base</th>
@@ -250,6 +282,7 @@ export class Carros extends Component {
                             <tr key={carro.iD_Carro}>
                                 <td>{carro.iD_Carro}</td>
                                 <td>{carro.modelo}</td>
+                                <td>{carro.iD_Categoria}</td>
                                 <td>{carro.anio}</td>
                                 <td>{carro.iD_Marca}</td>
                                 <td>{carro.precio_Base}</td>
@@ -341,17 +374,29 @@ export class Carros extends Component {
                                                 onChange={this.changeAnio}
                                             />
                                         </div>
+
                                         <div className="input-group mb-3">
-                                            <span className="input-group-text">Id Marca</span>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={iD_Marca}
-                                                onChange={this.changeMarca}
-                                            />
+                                            <span className="input-group-text">Id Categoría</span>
+                                            <select className="form-select"
+                                                onChange={this.changeCategoria}
+                                                value={iD_Categoria}>
+                                                {categorias.map(categoria => <option value={categoria.iD_Categoria} key={categoria.iD_Categoria}>
+                                                    {categoria.nombre_Categoria}
+                                                </option>)}
+                                            </select>
                                         </div>
                                         <div className="input-group mb-3">
-                                            <span className="input-group-text">Precio_Base</span>
+                                            <span className="input-group-text">Id Marca</span>
+                                            <select className="form-select"
+                                                onChange={this.changeMarca}
+                                                value={iD_Marca}>
+                                                {marcas.map(marca => <option value={marca.iD_Marca} key={marca.iD_Marca}>
+                                                    {marca.nombre_Marca}
+                                                </option>)}
+                                            </select>
+                                        </div>
+                                        <div className="input-group mb-3">
+                                            <span className="input-group-text">Precio Base</span>
                                             <input
                                                 type="text"
                                                 className="form-control"

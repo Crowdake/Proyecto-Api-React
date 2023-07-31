@@ -38,7 +38,7 @@ namespace test_api2.Controllers
         {
             var carrosService = new CarroService(); // Corregido: Cambiar "CarrosService" a "CarroService"
             var success = carrosService.EliminarCarro(id);
-            if (success)
+            if (success==true)
                 return Ok("Eliminado con éxito");
             else
                 return Ok("Error al eliminar"); // Return 404 Not Found if the car to delete is not found.

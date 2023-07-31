@@ -4,6 +4,7 @@
     {
         public int ID_Carro { get; set; }
         public int ID_Marca { get; set; }
+        public int ID_Categoria { get; set; }
         public string Modelo { get; set; }
         public int Anio { get; set; }
         public decimal Precio_Base { get; set; }

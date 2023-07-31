@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "F8i/H4/VkcSMx45oZ1fKD1PNGS42bN65KQrH3FoIneO70p9R0cCQUDYGyS2abeMf34ZrxyfOgtsbS9vm8+smGg==",
+  "dgSpecHash": "36ehHj/n7Q9zIpQBHJWY1XaYxTm6Oc7hbW2uCoCk8NdeGHUVwk8QQkRRVOIo2YcKXYTiIivkp8cZCnzx1usARw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jaime\\OneDrive\\Escritorio\\asd\\Proyecto-Api-React\\api\\backend\\ApiCarros\\ApiCarros.csproj",
+  "projectFilePath": "C:\\Users\\jaime\\Desktop\\WALAS\\Proyecto-Api-React\\api\\backend\\ApiCarros\\ApiCarros.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jaime\\.nuget\\packages\\google.protobuf\\3.21.9\\google.protobuf.3.21.9.nupkg.sha512",
     "C:\\Users\\jaime\\.nuget\\packages\\k4os.compression.lz4\\1.3.5\\k4os.compression.lz4.1.3.5.nupkg.sha512",

@@ -29,9 +29,8 @@ namespace test_api2.Models
                 {
                     conexion.Open();
 
-                    using (MySqlCommand com = new MySqlCommand("INSERT INTO refacciones (ID_Categoria, ID_Carro, Stock, Precio, Nombre_Refaccion, Descripcion_Refaccion) VALUES (@ID_Categoria, @ID_Carro, @Stock, @Precio, @Nombre_Refaccion, @Descripcion_Refaccion)", conexion))
+                    using (MySqlCommand com = new MySqlCommand("INSERT INTO refacciones (ID_Carro, Stock, Precio, Nombre_Refaccion, Descripcion_Refaccion) VALUES (@ID_Carro, @Stock, @Precio, @Nombre_Refaccion, @Descripcion_Refaccion)", conexion))
                     {
-                        com.Parameters.Add(new MySqlParameter("@ID_Categoria", refaccion.ID_Categoria));
                         com.Parameters.Add(new MySqlParameter("@ID_Carro", refaccion.ID_Carro));
                         com.Parameters.Add(new MySqlParameter("@Stock", refaccion.Stock));
                         com.Parameters.Add(new MySqlParameter("@Precio", refaccion.Precio));
@@ -101,7 +100,6 @@ namespace test_api2.Models
                 {
                     var refaccion = new Refaccion();
                     refaccion.ID_Refaccion = Convert.ToInt32(reader["ID_Refaccion"]);
-                    refaccion.ID_Categoria = Convert.ToInt32(reader["ID_Categoria"]);
                     refaccion.ID_Carro = Convert.ToInt32(reader["ID_Carro"]);
                     refaccion.Stock = Convert.ToInt32(reader["Stock"]);
                     refaccion.Precio = Convert.ToSingle(reader["Precio"]);
@@ -132,7 +130,6 @@ namespace test_api2.Models
                 {
                     refaccion = new Refaccion();
                     refaccion.ID_Refaccion = Convert.ToInt32(reader["ID_Refaccion"]);
-                    refaccion.ID_Categoria = Convert.ToInt32(reader["ID_Categoria"]);
                     refaccion.ID_Carro = Convert.ToInt32(reader["ID_Carro"]);
                     refaccion.Stock = Convert.ToInt32(reader["Stock"]);
                     refaccion.Precio = Convert.ToSingle(reader["Precio"]);
@@ -152,10 +149,9 @@ namespace test_api2.Models
                 {
                     conexion.Open();
 
-                    using (MySqlCommand com = new MySqlCommand("UPDATE refacciones SET ID_Categoria = @ID_Categoria, ID_Carro = @ID_Carro, Stock = @Stock, Precio = @Precio, Nombre_Refaccion = @Nombre_Refaccion, Descripcion_Refaccion = @Descripcion_Refaccion WHERE ID_Refaccion = @ID_Refaccion", conexion))
+                    using (MySqlCommand com = new MySqlCommand("UPDATE refacciones SET ID_Carro = @ID_Carro, Stock = @Stock, Precio = @Precio, Nombre_Refaccion = @Nombre_Refaccion, Descripcion_Refaccion = @Descripcion_Refaccion WHERE ID_Refaccion = @ID_Refaccion", conexion))
                     {
                         com.Parameters.Add(new MySqlParameter("@ID_Refaccion", idRefaccion));
-                        com.Parameters.Add(new MySqlParameter("@ID_Categoria", refaccion.ID_Categoria));
                         com.Parameters.Add(new MySqlParameter("@ID_Carro", refaccion.ID_Carro));
                         com.Parameters.Add(new MySqlParameter("@Stock", refaccion.Stock));
                         com.Parameters.Add(new MySqlParameter("@Precio", refaccion.Precio));
