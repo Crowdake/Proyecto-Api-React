@@ -2003,11 +2003,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jaime\\Desktop\\WALAS\\Proyecto-Api-React\\api\\backend\\ApiCarros\\ApiCarros.csproj",
+      "projectUniqueName": "C:\\Users\\jaime\\Desktop\\apiupa\\Proyecto-Api-React\\api\\backend\\ApiCarros\\ApiCarros.csproj",
       "projectName": "ApiCarros",
-      "projectPath": "C:\\Users\\jaime\\Desktop\\WALAS\\Proyecto-Api-React\\api\\backend\\ApiCarros\\ApiCarros.csproj",
+      "projectPath": "C:\\Users\\jaime\\Desktop\\apiupa\\Proyecto-Api-React\\api\\backend\\ApiCarros\\ApiCarros.csproj",
       "packagesPath": "C:\\Users\\jaime\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jaime\\Desktop\\WALAS\\Proyecto-Api-React\\api\\backend\\ApiCarros\\obj\\",
+      "outputPath": "C:\\Users\\jaime\\Desktop\\apiupa\\Proyecto-Api-React\\api\\backend\\ApiCarros\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\jaime\\AppData\\Roaming\\NuGet\\NuGet.Config",
