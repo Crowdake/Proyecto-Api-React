@@ -83,6 +83,7 @@ export class Home extends Component {
                                     }}
                                 >
                                     ${carro.precio_Base}
+                                    
                                 </Card.Subtitle>
                                 <Card.Text
                                     style={{
@@ -118,6 +119,7 @@ export class Home extends Component {
                                         color: '#080d0d',
                                     }}
                                 >
+                                    
                                     Añadir a favoritos
                                 </Button>
                             </Card.Body>
