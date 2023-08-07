@@ -10,8 +10,8 @@ function HomeCarousel() {
           alt="First slide"
         />
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h3>Variedad de refacciones</h3>
+          <p>Gran variedad para tu auto</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -21,8 +21,8 @@ function HomeCarousel() {
           alt="First slide"
         />
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h3>Marcas de reconocimiento global</h3>
+          <p>Adquiere el auto de sus sueños</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -32,9 +32,9 @@ function HomeCarousel() {
           alt="First slide"
         />
         <Carousel.Caption>
-          <h3>Third slide label</h3>
+          <h3>Servicios para autos</h3>
           <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+            Mantenlo limpio y con la mejor calidad
           </p>
         </Carousel.Caption>
       </Carousel.Item>

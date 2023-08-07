@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using ApiCarros;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 
@@ -6,25 +7,13 @@ namespace test_api2.Models
 {
     public class ServicioService
     {
-        private string BuildConnection()
-        {
-            // Configura la cadena de conexión a la base de datos MySQL
-            MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder
-            {
-                Server = "localhost",
-                Database = "test",
-                UserID = "root",
-                Password = ""
-            };
 
-            return builder.ConnectionString;
-        }
 
         public bool GuardarServicio(Servicio servicio)
         {
             try
             {
-                using (MySqlConnection conexion = new MySqlConnection(BuildConnection()))
+                using (MySqlConnection conexion = DatabaseConnection.GetConnection())
                 {
                     conexion.Open();
 
@@ -51,7 +40,7 @@ namespace test_api2.Models
         {
             try
             {
-                using (MySqlConnection conexion = new MySqlConnection(BuildConnection()))
+                using (MySqlConnection conexion = DatabaseConnection.GetConnection())
                 {
                     conexion.Open();
 
@@ -83,8 +72,9 @@ namespace test_api2.Models
         {
             List<Servicio> servicios = new List<Servicio>();
 
-            MySqlConnection conexion = new MySqlConnection();
-            conexion.ConnectionString = BuildConnection();
+            MySqlConnection conexion = DatabaseConnection.GetConnection();
+
+
 
             using (MySqlCommand com = new MySqlCommand("SELECT * FROM servicios", conexion))
             {
@@ -110,8 +100,7 @@ namespace test_api2.Models
         {
             Servicio servicio = null;
 
-            MySqlConnection conexion = new MySqlConnection();
-            conexion.ConnectionString = BuildConnection();
+            MySqlConnection conexion = DatabaseConnection.GetConnection();
 
             using (MySqlCommand com = new MySqlCommand("SELECT * FROM servicios WHERE ID_Servicio = @ID_Servicio", conexion))
             {
@@ -136,7 +125,7 @@ namespace test_api2.Models
         {
             try
             {
-                using (MySqlConnection conexion = new MySqlConnection(BuildConnection()))
+                using (MySqlConnection conexion = DatabaseConnection.GetConnection())
                 {
                     conexion.Open();
 

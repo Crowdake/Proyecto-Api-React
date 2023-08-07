@@ -7,22 +7,12 @@ namespace ApiCarros.Models
 {
     public class CategoriaService
     {
-        private string BuildConnection()
-        {
-            MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
-            builder.Server = "localhost";
-            builder.Database = "test";
-            builder.UserID = "root";
-            builder.Password = "";
-
-            return builder.ConnectionString;
-        }
 
         public bool GuardarCategoria(Categoria categoria)
         {
             try
             {
-                using (MySqlConnection conexion = new MySqlConnection(BuildConnection()))
+                using (MySqlConnection conexion = DatabaseConnection.GetConnection())
                 {
                     conexion.Open();
 
@@ -48,7 +38,8 @@ namespace ApiCarros.Models
         {
             try
             {
-                using (MySqlCommand com = new MySqlCommand("DELETE FROM categorias WHERE ID_Categoria = @idCategoria", new MySqlConnection(BuildConnection())))
+                MySqlConnection conexion = DatabaseConnection.GetConnection();
+                using (MySqlCommand com = new MySqlCommand("DELETE FROM categorias WHERE ID_Categoria = @idCategoria", conexion))
                 {
                     com.Connection.Open();
 
@@ -70,8 +61,7 @@ namespace ApiCarros.Models
         {
             List<Categoria> categorias = new List<Categoria>();
 
-            MySqlConnection conexion = new MySqlConnection();
-            conexion.ConnectionString = BuildConnection();
+            MySqlConnection conexion = DatabaseConnection.GetConnection();
 
             using (MySqlCommand com = new MySqlCommand("SELECT * FROM categorias", conexion))
             {
@@ -95,8 +85,7 @@ namespace ApiCarros.Models
         {
             Categoria categoria = null;
 
-            MySqlConnection conexion = new MySqlConnection();
-            conexion.ConnectionString = BuildConnection();
+            MySqlConnection conexion = DatabaseConnection.GetConnection();
 
             using (MySqlCommand com = new MySqlCommand("SELECT * FROM categorias WHERE ID_Categoria = @idCategoria", conexion))
             {
@@ -120,7 +109,7 @@ namespace ApiCarros.Models
         {
             try
             {
-                using (MySqlConnection conexion = new MySqlConnection(BuildConnection()))
+                using (MySqlConnection conexion = DatabaseConnection.GetConnection())
                 {
                     conexion.Open();
 

@@ -7,22 +7,12 @@ namespace ApiCarros.Models
 {
     public class MarcaService
     {
-        private string BuildConnection()
-        {
-            MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
-            builder.Server = "localhost";
-            builder.Database = "test";
-            builder.UserID = "root";
-            builder.Password = "";
-
-            return builder.ConnectionString;
-        }
 
         public bool GuardarMarca(Marca marca)
         {
             try
             {
-                using (MySqlConnection conexion = new MySqlConnection(BuildConnection()))
+                using (MySqlConnection conexion = DatabaseConnection.GetConnection())
                 {
                     conexion.Open();
 
@@ -48,7 +38,8 @@ namespace ApiCarros.Models
         {
             try
             {
-                using (MySqlCommand com = new MySqlCommand("DELETE FROM marcas WHERE ID_Marca = @idMarca", new MySqlConnection(BuildConnection())))
+                MySqlConnection conexion = DatabaseConnection.GetConnection();
+                using (MySqlCommand com = new MySqlCommand("DELETE FROM marcas WHERE ID_Marca = @idMarca", conexion))
                 {
                     com.Connection.Open();
 
@@ -70,8 +61,7 @@ namespace ApiCarros.Models
         {
             List<Marca> marcas = new List<Marca>();
 
-            MySqlConnection conexion = new MySqlConnection();
-            conexion.ConnectionString = BuildConnection();
+            MySqlConnection conexion = DatabaseConnection.GetConnection();
 
             using (MySqlCommand com = new MySqlCommand("SELECT * FROM marcas", conexion))
             {
@@ -95,8 +85,7 @@ namespace ApiCarros.Models
         {
             Marca marca = null;
 
-            MySqlConnection conexion = new MySqlConnection();
-            conexion.ConnectionString = BuildConnection();
+            MySqlConnection conexion = DatabaseConnection.GetConnection();
 
             using (MySqlCommand com = new MySqlCommand("SELECT * FROM marcas WHERE ID_Marca = @idMarca", conexion))
             {
@@ -120,7 +109,7 @@ namespace ApiCarros.Models
         {
             try
             {
-                using (MySqlConnection conexion = new MySqlConnection(BuildConnection()))
+                using (MySqlConnection conexion = DatabaseConnection.GetConnection())
                 {
                     conexion.Open();
 

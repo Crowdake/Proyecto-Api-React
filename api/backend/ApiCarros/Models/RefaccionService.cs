@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using ApiCarros;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,25 +8,12 @@ namespace test_api2.Models
 {
     public class RefaccionService
     {
-        private string BuildConnection()
-        {
-            // Configura la cadena de conexión a la base de datos MySQL
-            MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder
-            {
-                Server = "localhost",
-                Database = "test",
-                UserID = "root",
-                Password = ""
-            };
-
-            return builder.ConnectionString;
-        }
 
         public bool GuardarRefaccion(Refaccion refaccion)
         {
             try
             {
-                using (MySqlConnection conexion = new MySqlConnection(BuildConnection()))
+                using (MySqlConnection conexion = DatabaseConnection.GetConnection())
                 {
                     conexion.Open();
 
@@ -54,7 +42,7 @@ namespace test_api2.Models
         {
             try
             {
-                using (MySqlConnection conexion = new MySqlConnection(BuildConnection()))
+                using (MySqlConnection conexion = DatabaseConnection.GetConnection())
                 {
                     conexion.Open();
 
@@ -88,8 +76,7 @@ namespace test_api2.Models
         {
             List<Refaccion> refacciones = new List<Refaccion>();
 
-            MySqlConnection conexion = new MySqlConnection();
-            conexion.ConnectionString = BuildConnection();
+            MySqlConnection conexion = DatabaseConnection.GetConnection();
 
             using (MySqlCommand com = new MySqlCommand("SELECT * FROM refacciones", conexion))
             {
@@ -117,8 +104,7 @@ namespace test_api2.Models
         {
             Refaccion refaccion = null;
 
-            MySqlConnection conexion = new MySqlConnection();
-            conexion.ConnectionString = BuildConnection();
+            MySqlConnection conexion = DatabaseConnection.GetConnection();
 
             using (MySqlCommand com = new MySqlCommand("SELECT * FROM refacciones WHERE ID_Refaccion = @ID_Refaccion", conexion))
             {
@@ -145,7 +131,7 @@ namespace test_api2.Models
         {
             try
             {
-                using (MySqlConnection conexion = new MySqlConnection(BuildConnection()))
+                using (MySqlConnection conexion = DatabaseConnection.GetConnection())
                 {
                     conexion.Open();
 
